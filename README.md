@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# Bubble-Talk
+=======
+>>>>>>> 7327ede (first commit)
 # buble_talk
 
 A new Flutter project.
@@ -14,3 +20,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+<<<<<<< HEAD
+=======
+>>>>>>> f66e4a7 (first commit)
+>>>>>>> 7327ede (first commit)
