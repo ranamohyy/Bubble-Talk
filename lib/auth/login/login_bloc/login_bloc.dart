@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../utils/helpers/cutom_show_msg.dart';
@@ -35,7 +36,9 @@ final  BuildContext context;
                 return;
          }
         if (firebaseAuth.currentUser != null&&firebaseAuth.currentUser!.emailVerified) {
-        showToast(context, 'Log in Success!');
+          String? token = await FirebaseMessaging.instance.getToken();
+          print("FCM Token: $token");
+          showToast(context, 'Log in Success!');
         emit(LoginSuccess());
         await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:
             (context) =>
