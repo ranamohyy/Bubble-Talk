@@ -1,6 +1,5 @@
 import 'package:buble_talk/auth/login/login_bloc/login_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -11,6 +10,7 @@ import '../../../utils/utils.dart';
 import '../../../widgets/custom_splash_item.dart';
 import '../../../widgets/custom_top_view.dart';
 import '../../register/register_view/view.dart';
+part '../../../widgets/fields_login.dart';
 part '../../../widgets/body_login.dart';
 part '../../../widgets/not_have_account_widget.dart';
 class LogInView extends StatefulWidget {
@@ -19,13 +19,14 @@ class LogInView extends StatefulWidget {
   @override
   State<LogInView> createState() => _LogInViewState();
 }
+
 class _LogInViewState extends State<LogInView> {
-   TextEditingController emailController=TextEditingController();
-   TextEditingController passwordController=TextEditingController();
+  TextEditingController emailController=TextEditingController();
+  TextEditingController passwordController=TextEditingController();
 
   @override
   void dispose() {
-   passwordController.dispose();
+    passwordController.dispose();
     emailController.dispose();
     super.dispose();
   }
@@ -45,6 +46,7 @@ class _LogInViewState extends State<LogInView> {
                 children: [
                   const CustomTopView(),
                   Stack(children: [
+
                     CustomSplashItem(
                       height: MediaQuery.of(context).size.height * 0.5,
                       decoration: const BoxDecoration(
@@ -60,24 +62,7 @@ class _LogInViewState extends State<LogInView> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             const BodyLogin(),
-                            MyInput(
-                              controller:emailController,
-                              validator: (value) {
-                                return Utils.validateEmail(value!);
-                              },
-                              text: 'Enter Your Email',
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            MyInput(
-                              obscureText: true,
-                              validator: (value) {
-                                return Utils.validatePassword(value!);
-                              },
-                              controller: passwordController,
-                              text: 'Enter Password',
-                            ),
+                             FieldsLogin(emailController: emailController,passwordController: passwordController,),
                             GestureDetector(
                               onTap: (){
                                bloc.add(ForgetPasswordEvent(emailController.text));
