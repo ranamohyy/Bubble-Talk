@@ -1,9 +1,9 @@
+import 'package:buble_talk/splash/view.dart';
 import 'package:buble_talk/utils/constans.dart';
+import 'package:buble_talk/utils/helpers/custom_button.dart';
 import 'package:buble_talk/views/my_profilr/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../auth/verify email/verify_view/view.dart';
-import '../../utils/helpers/custom_button.dart';
 import '../../widgets/custom_splash_item.dart';
 import '../chats_view/view.dart';
 class HomePageView extends StatefulWidget {
@@ -32,7 +32,6 @@ class _HomePageViewState extends State<HomePageView> {
   }
   @override
   Widget build(BuildContext context) {
-    if (FirebaseAuth.instance.currentUser!.emailVerified==true){
      return Scaffold(
       backgroundColor:whiteColor,
       appBar:PreferredSize(
@@ -54,7 +53,21 @@ class _HomePageViewState extends State<HomePageView> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                 const Text('Bubble Chat',style: kTextStyle24white,),
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: [
+                     const Text('  Bubble Talk',style: kTextStyle24white,),
+                     MyButton(
+                       backgroundColor: Colors.transparent,
+                       child:const  Icon(Icons.logout,color: Colors.white,),onPressed: (){
+                       FirebaseAuth.instance.signOut();
+                       Navigator.pushAndRemoveUntil(context,
+                         MaterialPageRoute(builder: (context) => SplashView(),),
+                             ModalRoute.withName('/'),
+                           );
+                     },),
+                   ],
+                 ),
                 Container(
                   decoration:const BoxDecoration(
                       color:Color(0x931a3559),
@@ -118,19 +131,7 @@ class _HomePageViewState extends State<HomePageView> {
 
     );
 
-    }else
-      {
-      return  Scaffold(body: Center(child: MyButton
 
-        (backgroundColor: Colors.red,
-          onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) =>
-          EmailVerifyEmail(email:widget.email=FirebaseAuth.instance.currentUser!.email ,)
-            ,));
-      },
-
-          child:const Text('Please verify Email',style: kTextStyle20white,))),);
-      }
 
   }
 }

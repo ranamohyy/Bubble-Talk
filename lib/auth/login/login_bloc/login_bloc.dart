@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +16,9 @@ class LoginBloc extends Bloc<LoginEvents, LoginStates> {
 
   }
   static LoginBloc of(context) => BlocProvider.of(context);
-
   final formKey = GlobalKey<FormState>();
-final  BuildContext context;
+  final  BuildContext context;
+
   Future<void>_sendData(LoginSubmitted event,Emitter<LoginStates>emit,)async {
     try {
       if (formKey.currentState!.validate()) {
