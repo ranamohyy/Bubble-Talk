@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
     ContactsView.id:(context)=>const ContactsView(),
 
      },
-       initialRoute:LogInView.id,
+       initialRoute:HomePageView.id,
        // fireAuth.currentUser!=null&&
        // fireAuth.currentUser!.emailVerified?HomePageView.id:LogInView.id ,
       debugShowCheckedModeBanner:false ,

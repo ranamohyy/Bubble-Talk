@@ -1,6 +1,5 @@
 import 'package:buble_talk/splash/view.dart';
 import 'package:buble_talk/utils/constans.dart';
-import 'package:buble_talk/utils/helpers/custom_button.dart';
 import 'package:buble_talk/views/my_profilr/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,18 +22,13 @@ class _HomePageViewState extends State<HomePageView> {
  late List<Widget>screens= [
     MyChatsView(email: widget.email!,),
    const MyProfile()
-  ];@override
-  void initState() {
-    widget.type=="main"?
-        widget.email=FirebaseAuth.instance.currentUser!.email
-    :widget.email;
-    super.initState();
-  }
-  @override
+  ];
+ @override
   Widget build(BuildContext context) {
      return Scaffold(
       backgroundColor:whiteColor,
-      appBar:PreferredSize(
+      appBar:
+      PreferredSize(
         preferredSize:
         Size.fromHeight(MediaQuery.of(context).size.height*0.26),
           child:
@@ -56,13 +50,12 @@ class _HomePageViewState extends State<HomePageView> {
                  Row(
                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: [
-                     const Text('  Bubble Talk',style: kTextStyle24white,),
-                     MyButton(
-                       backgroundColor: Colors.transparent,
-                       child:const  Icon(Icons.logout,color: Colors.white,),onPressed: (){
+                     const Text('    Bubble Talk',style: kTextStyle24white,),
+                     IconButton(
+                       icon:const  Icon(Icons.logout,color: Colors.white,),onPressed: (){
                        FirebaseAuth.instance.signOut();
                        Navigator.pushAndRemoveUntil(context,
-                         MaterialPageRoute(builder: (context) => SplashView(),),
+                         MaterialPageRoute(builder: (context) => const SplashView(),),
                              ModalRoute.withName('/'),
                            );
                      },),
@@ -78,8 +71,11 @@ class _HomePageViewState extends State<HomePageView> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       OutlinedButton(
-
-                        onPressed:(){setState(() {index=0;});},
+                          onPressed:(){
+                            setState(() {
+                              index=0
+                              ;});
+                            },
                           style: OutlinedButton.styleFrom(backgroundColor:
                           index==0?whiteColor:const Color(0x931a3559)
                           ),
@@ -90,7 +86,7 @@ class _HomePageViewState extends State<HomePageView> {
                      const  SizedBox(width: 8,),
                       OutlinedButton(
                           style: OutlinedButton.styleFrom(backgroundColor:
-                          index==0?whiteColor:const Color(0x931a3559)
+                          index==1?whiteColor:const Color(0x931a3559)
                           ),
                         onPressed:(){
                           setState(() {
@@ -98,7 +94,7 @@ class _HomePageViewState extends State<HomePageView> {
                           });
                         },
                           child: Text('My Profile',style: kTextStyle20white.copyWith(
-                            color: index==0?kPrimaryColor:whiteColor)
+                            color: index==1?kPrimaryColor:whiteColor)
                             ,)),
                     ],
                   ),
