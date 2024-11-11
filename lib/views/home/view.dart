@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/custom_splash_item.dart';
 import '../chats_view/view.dart';
 class HomePageView extends StatefulWidget {
+
     HomePageView({super.key, this.email,required this.type});
     final String type;
 static String id= 'HomePage';
@@ -42,7 +43,6 @@ class _HomePageViewState extends State<HomePageView> {
                       bottomLeft: Radius.circular(95)
                   )
               ),
-
             ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
