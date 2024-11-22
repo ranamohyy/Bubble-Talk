@@ -11,11 +11,17 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsStates> {
     on<ChatsEvent>(_getData);
   }
 List<UserModel>users=[];
+
   Future<void>_getData(ChatsEvent event,Emitter<ChatsStates>emit)async{
     try {
       emit(ChatsLoading());
-     final result= await FirebaseFirestore.instance.collection('users').get();
-      users = result.docs.map((doc) => UserModel.fromJson(doc.data())).toList();
+      final currentUserId=  FirebaseAuth.instance.currentUser?.uid;
+      final result= await FirebaseFirestore.instance.collection('users').get();
+      users = result.docs
+          .map((doc) => UserModel.fromJson(doc.data()))
+          .where((user) => user.uid != currentUserId) // تجاهل المستخدم الحالي
+          .toList();
+      
       emit(ChatsSuccess(
         list: users
       ));
