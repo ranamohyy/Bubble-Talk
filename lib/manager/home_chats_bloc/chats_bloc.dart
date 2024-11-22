@@ -19,7 +19,7 @@ List<UserModel>users=[];
       final result= await FirebaseFirestore.instance.collection('users').get();
       users = result.docs
           .map((doc) => UserModel.fromJson(doc.data()))
-          .where((user) => user.uid != currentUserId) // تجاهل المستخدم الحالي
+          .where((user) => user.uid != currentUserId)
           .toList();
       
       emit(ChatsSuccess(
