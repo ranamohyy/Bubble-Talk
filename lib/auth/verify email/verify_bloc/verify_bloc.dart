@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../utils/helpers/cutom_show_msg.dart';
 import '../../login/log_in_view/view.dart';
+import '../../register/register_bloc/register_bloc.dart';
 part 'verify_event.dart';
 part 'verify_state.dart';
 class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
@@ -22,6 +24,7 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
         showToast(context, "Verification email sent!");
         await Future.delayed(const Duration(seconds: 2));
         await firebaseAuth.signOut();
+        await setUserData(user.uid,user.email);
         await Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const LogInView()),
@@ -35,5 +38,12 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
       emit(VerifyFailure(msg: e.message ?? "An error occurred"));
     }
   }
+  Future<void>setUserData (String uid,email) async{
+    await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      'email':email,
+      'uid':uid
+    });
+  }
+
 }
 

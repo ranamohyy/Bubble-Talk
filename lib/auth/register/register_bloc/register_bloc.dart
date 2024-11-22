@@ -16,18 +16,6 @@ final  BuildContext context;
 final formKey = GlobalKey<FormState>();
 Future<void>_sendData(RegisterSubmitted event,Emitter<RegisterStates>emit,)async {
     try {
-      //  validatePasswords() {
-      //   if (event.passwordController.text !=
-      //       event.confirmPasswordController.text) {
-      //     const Duration(seconds: 1);
-      //     Fluttertoast.showToast(
-      //         timeInSecForIosWeb: 1,
-      //         // toastDuration: Duration(seconds: 2),
-      //         msg: 'password not match',
-      //         backgroundColor: whiteColor,
-      //         textColor: kPrimaryColor);
-      //   }
-      // }
     if (event.passwordController.text != event.confirmPasswordController.text) {
         const  Duration(seconds: 1);
         Fluttertoast.showToast(
@@ -69,5 +57,7 @@ Future<void>_sendData(RegisterSubmitted event,Emitter<RegisterStates>emit,)async
 
       emit(RegisterFailure());
     }
-  }}
+  }
+
+}
 

@@ -27,40 +27,42 @@ class _EmailVerifyEmailState extends State<EmailVerifyEmail> {
           return Scaffold(
             body:  ModalProgressHUD(
               inAsyncCall: isLoading,
-              child: Column(
-                children: [
-              const    CustomTopView(),
-              Stack(children: [
-                CustomSplashItem(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  decoration: const BoxDecoration(
-                      color: kPrimaryColor,
-                      borderRadius:
-                      BorderRadius.only(topLeft: Radius.circular(95))),
-                ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric( horizontal: 15.0,vertical: 22),
-                    child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const Text(
-                          textAlign: TextAlign.center,
-                          'Hello Please Verify Your Email!',style: kTextStyle20white,),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.1,
-                        ),
-                    MyButton(
-                      onPressed: (){
-                        bloc.add(VerifyEvent());
-                      },
-                      backgroundColor: Colors.red,
-                      child:  const Text(" Verify Email",style: kTextStyle20white,),
-                    ),
-                      ],
-                               ),
-                  ),  ],
-              )
-                      ]),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                const    CustomTopView(),
+                Stack(children: [
+                  CustomSplashItem(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    decoration: const BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius:
+                        BorderRadius.only(topLeft: Radius.circular(95))),
+                  ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric( horizontal: 15.0,vertical: 22),
+                      child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Text(
+                            textAlign: TextAlign.center,
+                            'Hello Please Verify Your Email!',style: kTextStyle20white,),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.1,
+                          ),
+                      MyButton(
+                        onPressed: (){
+                          bloc.add(VerifyEvent());
+                        },
+                        backgroundColor: Colors.red,
+                        child:  const Text(" Verify Email",style: kTextStyle20white,),
+                      ),
+                        ],
+                                 ),
+                    ),  ],
+                )
+                        ]),
+              ),
             )
         );
         }
