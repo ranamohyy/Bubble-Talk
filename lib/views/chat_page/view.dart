@@ -133,6 +133,7 @@ class _ChatPageViewState extends State<ChatPageView> {
                       return Center(child: CircularProgressIndicator());
                     } else if (state is ChatSuccess) {
                       return ListView.builder(
+                        keyboardDismissBehavior:ScrollViewKeyboardDismissBehavior.onDrag ,
                         reverse: true,
                         itemCount: state.messages.length,
                         itemBuilder: (context, index) {
