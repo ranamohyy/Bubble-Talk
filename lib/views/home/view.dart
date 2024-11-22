@@ -21,7 +21,7 @@ class _HomePageViewState extends State<HomePageView> {
   int index=0;
 
  late List<Widget>screens= [
-    MyChatsView(email: widget.email!,),
+    MyChatsView(),
    const MyProfile()
   ];
  @override
