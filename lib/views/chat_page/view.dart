@@ -160,7 +160,8 @@ class _ChatPageViewState extends State<ChatPageView> {
               child: Row(
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
+                      textInputAction:TextInputAction.send,
                       controller: messageController,
                       decoration: InputDecoration(
                         hintText: 'Type your message...',
