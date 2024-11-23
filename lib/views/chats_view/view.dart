@@ -1,5 +1,6 @@
 import 'package:buble_talk/contacs_view/view.dart';
 import 'package:buble_talk/manager/home_chats_bloc/chats_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../utils/constans.dart';
@@ -10,7 +11,6 @@ class MyChatsView extends StatefulWidget {
   const MyChatsView({super.key});
 
   static String id = 'MyChatsView';
-
   @override
   State<MyChatsView> createState() => _MyChatsViewState();
 }
@@ -44,8 +44,7 @@ class _MyChatsViewState extends State<MyChatsView> {
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ChatPageView(
-                                  chatId: state.list[index].uid,
-                                  email: state.list[index].email,
+                                  user:state.list[index],
                                 )));
                       },
                       child: CustomShapeChats(

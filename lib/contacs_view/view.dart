@@ -1,5 +1,7 @@
+import 'package:buble_talk/models/users.dart';
 import 'package:buble_talk/utils/helpers/cutom_show_msg.dart';
 import 'package:buble_talk/views/chat_page/view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -30,8 +32,6 @@ class _ContactsViewState extends State<ContactsView> {
 
   @override
   void initState() {
-    print(_contacts.length);
-
     super.initState();
     fetchContacts();
   }
@@ -55,7 +55,7 @@ class _ContactsViewState extends State<ContactsView> {
               Contact contact = _contacts[index];
               return GestureDetector(
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatPageView(chatId: contact.id,),));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatPageView(user: contact.id as UserModel,),));
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 10.0,left: 10,bottom: 0,top: 0),

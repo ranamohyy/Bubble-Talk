@@ -6,9 +6,8 @@ part 'chat_event.dart';
 part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvents, ChatState> {
-  final FirebaseFirestore firestore;
 
-  ChatBloc(this.firestore) : super(ChatInitial()) {
+  ChatBloc() : super(ChatInitial()) {
     on<SendMessageEvent>(_sendData);
     on<LoadMessagesEvent>(_getData);
   }
@@ -17,7 +16,7 @@ class ChatBloc extends Bloc<ChatEvents, ChatState> {
   Future<void> _sendData(SendMessageEvent event,
       Emitter<ChatState> emit) async {
     try {
-      await firestore.collection('chats').doc(event.message.id).set(
+      await FirebaseFirestore.instance.collection('chats').doc(event.message.id).set(
           event.message.toMap());
     } catch (e) {
       emit(ChatFailure(e.toString()));
@@ -27,7 +26,7 @@ class ChatBloc extends Bloc<ChatEvents, ChatState> {
         Emitter<ChatState> emit) async {
       try {
         emit(ChatLoading());
-        var snapshots = await firestore
+        var snapshots = await FirebaseFirestore.instance
           .collection('chats')
           .doc(event.chatId)
           .collection('messages')
