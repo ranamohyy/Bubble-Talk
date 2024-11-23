@@ -1,5 +1,6 @@
 import 'package:buble_talk/manager/chat_bloc/chat_bloc.dart';
 import 'package:buble_talk/models/users.dart';
+import 'package:buble_talk/utils/constans.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,9 @@ class _ChatPageViewState extends State<ChatPageView> {
         ChatBloc(),
         child: Scaffold(
           appBar: AppBar(
-            title: Text(Utils.formatName(username)),),
+            title: Text(Utils.formatName(username),style: kTextStyle16black.copyWith(
+              fontSize: 22,color: kPrimaryColor
+            ),),),
 
           body: Column(
             children: [

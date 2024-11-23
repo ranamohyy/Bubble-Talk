@@ -31,9 +31,3 @@ const kTextStyle14White= TextStyle(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w100,
 );
-const kMessages='messages';
-const kMessageKey='message';
-const kMessageFireBase='text';
-const kDateMessage='createdAt';
-const kIdMessage='id';
-const kChats='chats';
