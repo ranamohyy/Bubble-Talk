@@ -1,7 +1,3 @@
-import 'package:buble_talk/models/messege_model.dart';
-import 'package:buble_talk/utils/constans.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 class Utils {
   static void show(BuildContext context) {
@@ -40,6 +36,33 @@ class Utils {
         .hasMatch(email);
     return emailValid ? null : 'Invalid Email Format';
   }}
+static String capitalize(String word) {
+  return word.isEmpty ? '' : word[0].toUpperCase() + word.substring(1).toLowerCase();
+}
+ static String formatName(String username) {
+    // تقسيم بناءً على الحروف الكبيرة أو عند التعرف على مقطع جديد
+    String firstName = '';
+    String lastName = '';
+
+    for (int i = 1; i < username.length; i++) {
+      // إذا وجدنا بداية مقطع جديد (عند وجود حرف كبير أو بداية اسم آخر)
+      if (username[i].toUpperCase() == username[i]) {
+        firstName = username.substring(0, i);
+        lastName = username.substring(i);
+        break;
+      }
+    }
+
+    // إذا لم نجد حروف كبيرة، نحاول تقسيم يدويًا في منتصف الاسم
+    if (lastName.isEmpty) {
+      int mid = (username.length / 2).round();
+      firstName = username.substring(0, mid);
+      lastName = username.substring(mid);
+    }
+
+    return '${capitalize(firstName)} ${capitalize(lastName)}';
+  }
+
 
 
 
