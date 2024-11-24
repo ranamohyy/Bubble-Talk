@@ -27,7 +27,7 @@ class _ChatPageViewState extends State<ChatPageView> {
    String username = widget.user!.email.split('@').first.replaceAll(RegExp(r'\d+'), '');
   final event= SendMessageEvent() ;
    return
-      BlocProvider(create: (context) => ChatBloc(receiver: widget.user!),
+      BlocProvider(create: (context) => ChatBloc(receiver: widget.user!)..add(LoadMessagesEvent(chatId: widget.user!.uid)),
         child: Scaffold(
           appBar: AppBar(
             title: Text(Utils.formatName(username),style: kTextStyle16black.copyWith(
