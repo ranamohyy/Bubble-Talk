@@ -41,36 +41,32 @@
 //
 // }
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MessageModel {
-  final String id;
   final String content;
   final String senderId;
-  final DateTime timestamp;
+  final Timestamp timestamp;
 
   MessageModel({
-    required this.id,
     required this.content,
     required this.senderId,
     required this.timestamp,
   });
 
-  // Converts a Message object to a map
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'content': content,
       'senderId': senderId,
-      'timestamp': timestamp.millisecondsSinceEpoch,
+      'timestamp': timestamp,
     };
   }
 
-  // Creates a Message object from a map
   static MessageModel fromMap(Map<String, dynamic> map) {
     return MessageModel(
-      id: map['id'],
       content: map['content'],
       senderId: map['senderId'],
-      timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp']),
+      timestamp: map['timestamp'] as Timestamp,
     );
   }
 }
