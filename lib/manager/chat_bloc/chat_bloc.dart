@@ -29,9 +29,11 @@ final UserModel receiver;
       message.insert(0,msg );
       controller.clear();
       final snapShot=await
-      FirebaseFirestore.instance.collection('chats').doc(id).collection(receiver.uid).doc()
+      FirebaseFirestore.instance
+          .collection('chats')
+          .doc(id).collection(receiver.uid).doc()
           .set(
-          event.message!.toMap());
+          msg.toMap());
     emit(ChatSuccess(message));
     } catch (e) {
       emit(ChatFailure(e.toString()));
