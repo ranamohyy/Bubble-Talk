@@ -1,8 +1,8 @@
 import 'package:buble_talk/utils/constans.dart';
 import 'package:flutter/material.dart';
-import '../auth/login/log_in_view/view.dart';
-import '../widgets/custom_splash_item.dart';
-import '../widgets/custom_top_view.dart';
+import '../../auth/login/log_in_view/view.dart';
+import '../../widgets/custom_splash_item.dart';
+import '../../widgets/custom_top_view.dart';
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
   static String id= 'splashPage';

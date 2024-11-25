@@ -1,11 +1,10 @@
 import 'package:buble_talk/models/users.dart';
 import 'package:buble_talk/utils/helpers/cutom_show_msg.dart';
 import 'package:buble_talk/views/chat_page/view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../utils/constans.dart';
+import '../../utils/constans.dart';
 class ContactsView extends StatefulWidget {
   const ContactsView({super.key});
 static String id ="contacs";

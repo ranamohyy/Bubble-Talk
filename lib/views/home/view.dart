@@ -1,10 +1,10 @@
-import 'package:buble_talk/splash/view.dart';
 import 'package:buble_talk/utils/constans.dart';
 import 'package:buble_talk/views/my_profilr/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/custom_splash_item.dart';
 import '../chats_view/view.dart';
+import '../splash/view.dart';
 class HomePageView extends StatefulWidget {
 
     HomePageView({super.key, this.email,required this.type});

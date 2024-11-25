@@ -1,11 +1,10 @@
-import 'package:buble_talk/contacs_view/view.dart';
 import 'package:buble_talk/manager/home_chats_bloc/chats_bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../utils/constans.dart';
 import '../../widgets/custom_shape_chats.dart';
 import '../chat_page/view.dart';
+import '../contacs_view/view.dart';
 
 class MyChatsView extends StatefulWidget {
   const MyChatsView({super.key});
@@ -67,7 +66,7 @@ class _MyChatsViewState extends State<MyChatsView> {
                 backgroundColor: Colors.red,
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ContactsView()));
+                        MaterialPageRoute(builder: (context) => const ContactsView()));
                     // addUser();
                   },
                   child: const Icon(

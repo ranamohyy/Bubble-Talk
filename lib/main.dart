@@ -1,15 +1,15 @@
 import 'dart:developer';
-import 'package:buble_talk/splash/view.dart';
 import 'package:buble_talk/views/chat_page/view.dart';
 import 'package:buble_talk/views/chats_view/view.dart';
+import 'package:buble_talk/views/contacs_view/view.dart';
 import 'package:buble_talk/views/home/view.dart';
+import 'package:buble_talk/views/splash/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'auth/login/log_in_view/view.dart';
 import 'auth/register/register_view/view.dart';
-import 'contacs_view/view.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
