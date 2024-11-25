@@ -5,7 +5,7 @@ part of 'chat_bloc.dart';
  class ChatInitial extends ChatState {}
 class ChatLoading extends ChatState {}
 class ChatSuccess extends ChatState {
-  final List<MessageModel> messages;
+  final List<MessageModel>messages;
 
   ChatSuccess(this.messages);
 }

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:buble_talk/models/messege_model.dart';
 import 'package:buble_talk/models/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,74 +9,90 @@ part 'chat_event.dart';
 part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvents, ChatState> {
-final UserModel receiver;
+  final UserModel receiver;
+  final String currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
+  List<MessageModel> messages = [];
   ChatBloc({required this.receiver}) : super(ChatInitial()) {
     on<SendMessageEvent>(_sendData);
-    on<LoadMessagesEvent>(getData);
+    on<LoadMessagesEvent>(_getData);
+    on<Update>(_success);
   }
-   List<MessageModel>message=[];
-final id=FirebaseAuth.instance.currentUser?.uid;
-StreamSubscription? _messagesSubscription;
+  TextEditingController controller = TextEditingController();
+  StreamSubscription? _messagesSubscription;
+  void _success(Update event, Emitter<ChatState> emit) {
+    emit(ChatSuccess(messages));
+  }
+  Future<void> _getData(LoadMessagesEvent event, Emitter<ChatState> emit) async {
+    print("_getData method called"); // تأكيد استدعاء الميثود
+
+    try {
+      await _messagesSubscription?.cancel();
+      messages.clear();
+
+      var chatRef = FirebaseFirestore.instance
+          .collection('chats')
+          .doc(currentUserId)
+          .collection(receiver.uid);
+      var collectionSnapshot = await chatRef.get();
+      print("Collection exists: ${collectionSnapshot.docs.isNotEmpty}");
+
+      emit(ChatLoading());
+      _messagesSubscription =
+          chatRef.orderBy('timestamp', descending: true).snapshots().listen((ev){
+            messages.addAll(
+           ev.docs.map((doc) => MessageModel.fromMap(doc.data())).toList(),
+
+         );
+             add(Update());
+         print("Processed Messages: ${messages.length}");
+
+       });
 
 
-TextEditingController controller=TextEditingController();
+  }
+
+  catch (e) {
+    print("Exception caught: $e");
+    emit(ChatFailure(e.toString()));
+
+
+    }
+  }
+
   Future<void> _sendData(SendMessageEvent event, Emitter<ChatState> emit) async {
     try {
-     final text = controller.text;
-     final msg=MessageModel(
-         content: controller.text,
-         senderId: id!,
-         timestamp: Timestamp.now());
-      if(text.isEmpty||text.trim().length==0){
-        return;
-      }
-      message.insert(0,msg );
-      final snapShot=await
-      FirebaseFirestore.instance
+
+      if (controller.text.trim().isEmpty) return;
+
+      final msg = MessageModel(
+        content: controller.text,
+        senderId: currentUserId,
+        timestamp: Timestamp.now(),
+      );
+
+      await FirebaseFirestore.instance
           .collection('chats')
-          .doc(id).collection(receiver.uid).doc()
-          .set(
-          msg.toMap());
-     await FirebaseFirestore.instance
-         .collection('chats')
-         .doc(receiver.uid)
-         .collection(id!)
-         .add(msg.toMap());
+          .doc(currentUserId)
+          .collection(receiver.uid)
+          .add(msg.toMap());
 
-     controller.clear();
+      await FirebaseFirestore.instance
+          .collection('chats')
+          .doc(receiver.uid)
+          .collection(currentUserId)
+          .add(msg.toMap());
 
-     emit(ChatSuccess(message));
+      controller.clear();
+      emit(ChatSuccess(messages));
     } catch (e) {
       emit(ChatFailure(e.toString()));
-    }}
-
-    Future<void> getData(LoadMessagesEvent event,
-        Emitter<ChatState> emit) async {
-      try {
-        emit(ChatLoading());
-        await _messagesSubscription?.cancel();
-
-        _messagesSubscription = FirebaseFirestore.instance
-            .collection('chats')
-            .doc(id)
-            .collection(receiver.uid)
-            .orderBy('timestamp', descending: true)
-            .snapshots()
-            .listen((snapshot) {
-          final messages = snapshot.docs
-              .map((doc) => MessageModel.fromMap(doc.data()))
-              .toList();
-          emit(ChatSuccess(messages));
-        });
-  }
- catch (e) {
-        emit(ChatFailure(e.toString()));
-      }
     }
-    @override
-  Future<void> close() {
+  }
+
+
+  @override
+  Future<void> close() async {
     controller.dispose();
-    _messagesSubscription?.cancel();
     return super.close();
   }
-  }
+}

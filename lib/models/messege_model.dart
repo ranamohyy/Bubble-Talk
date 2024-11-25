@@ -62,11 +62,13 @@ class MessageModel {
     };
   }
 
-  static MessageModel fromMap(Map<String, dynamic> map) {
-    return MessageModel(
-      content: map['content'],
-      senderId: map['senderId'],
-      timestamp: map['timestamp'] as Timestamp,
-    );
-  }
+        factory MessageModel.fromMap(Map<String, dynamic> map) {
+      return MessageModel(
+        senderId: map['senderId'] ?? '',
+        content: map['content'] ?? '',
+        timestamp: map['timestamp'] ?? Timestamp.now(),
+      );
+    }
+
+
 }

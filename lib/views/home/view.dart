@@ -103,11 +103,6 @@ class _HomePageViewState extends State<HomePageView> {
               ),
          ] ),
       ),
-      // body: ListView.builder(
-      //   itemCount: screens.length,
-      //     itemBuilder:(context, index) {
-      //     return screens[index];
-      //   } )
       body: Stack(
         children:[
           CustomSplashItem(

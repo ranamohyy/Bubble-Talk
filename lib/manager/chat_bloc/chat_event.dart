@@ -13,7 +13,10 @@ class SendMessageEvent extends ChatEvents {
 }
 
 class LoadMessagesEvent extends ChatEvents {
-  final String chatId;
 
-  LoadMessagesEvent({required this.chatId});
+
+  LoadMessagesEvent();
+}class Update extends ChatEvents {
+
+  Update();
 }

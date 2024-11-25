@@ -9,107 +9,122 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../utils/utils.dart';
-class ChatPageView extends StatefulWidget{
-   ChatPageView({super.key, this.user});
-   final UserModel ? user;
 
+class ChatPageView extends StatefulWidget {
+  ChatPageView({super.key, this.user});
 
-   static String id='MyChat';
+  final UserModel ?user;
+  static String id = 'MyChat';
 
   @override
   State<ChatPageView> createState() => _ChatPageViewState();
 }
+
 class _ChatPageViewState extends State<ChatPageView> {
-  final listControl=ScrollController();
-
- @override
+  final listControl = ScrollController();
+  @override
+  final event = SendMessageEvent();
+  @override
   Widget build(BuildContext context) {
-   String username = widget.user!.email.split('@').first.replaceAll(RegExp(r'\d+'), '');
-  final event= SendMessageEvent() ;
-   return
-      BlocProvider(create: (context) => ChatBloc(receiver: widget.user!)..add(LoadMessagesEvent(chatId: widget.user!.uid)),
+    String username = widget.user!.email.split('@').first.replaceAll(RegExp(r'\d+'), '');
+    return BlocProvider(create: (_) =>
+    ChatBloc(receiver: widget.user!)
+      ..add(LoadMessagesEvent()),
         child: Scaffold(
-          appBar: AppBar(
-            title: Text(Utils.formatName(username),style: kTextStyle16black.copyWith(
-              fontSize: 22,color: kPrimaryColor
-            ),),),
-          body: Column(
-            children: [
-              Expanded(
-                child:
-                BlocBuilder<ChatBloc, ChatState>(
-                  builder: (context, state) {
-                    final bloc = BlocProvider.of<ChatBloc>(context);
-                    if (state is ChatLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    else if (state is ChatSuccess) {
-                     print("============${
-                         state.messages.length
-                     }") ;
-                      return ListView.builder(
-                        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior
-                            .onDrag,
-                        reverse: true,
-                        itemCount: state.messages.length,
-                        itemBuilder: (context, index) {
-                          final message = state.messages[index];
-                          bool isMe = FirebaseAuth.instance.currentUser !=
-                              null &&
-                              FirebaseAuth.instance.currentUser!.uid ==
-                                  message.senderId;
-                          return BubbleSpecialThree(
-                            text: message.content,
-                          );
-                        },
-                      );
-                    } else {
-                      return Center(child: Text('Error loading messages'));
-                    }
-                  }),
-              ),
-            Builder(
-              builder: (context) {
-                final bloc=BlocProvider.of<ChatBloc>(context);
+        appBar: AppBar(
+        title: Text(Utils.formatName(
+        username),style: kTextStyle16black.copyWith(
+    fontSize: 22,color: kPrimaryColor
+    ),),),
+    body: Column(
+      children: [
+        BlocConsumer<ChatBloc, ChatState>(
+        listener: (context, state) {
+        if (state is ChatFailure) {
+        print("Error: ${state.error}");
+        } else if (state is ChatSuccess) {
+        print("Loaded messages: ${state.messages.length}");
+        }
+        },
+        builder: (context, state) {
+        if (state is ChatLoading) {
+        return const Center(child: CircularProgressIndicator(),);
+        }
+        else if(state is ChatSuccess){
 
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: bloc.controller,
-                          textInputAction: TextInputAction.send,
-                          decoration: InputDecoration(
-                            hintText: 'Type your message...',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+          if(state.messages.isEmpty){
+            return const Center(child: Text("no messages yet"),);
+          }
+          return Expanded(
+          child: ListView.builder(
+            controller: listControl,
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            reverse: true,
+            itemCount: state.messages.length,
+            itemBuilder: (context, index) {
+              final message = state.messages[index];
+              final isMe = FirebaseAuth.instance.currentUser!.uid == message.senderId;
+
+              return BubbleSpecialThree(
+                text: message.content,
+                isSender: isMe,
+                tail: false,
+                color: isMe ? kPrimaryColor : Colors.grey.shade200,
+                textStyle: TextStyle(
+                  color: isMe ? Colors.red : Colors.black,
+                ),
+              );
+            },
+          ),
+                  );}
+
+        return const Center(child: Text('Error loading messages'));
+        }),
+        Builder(
+            builder: (context) {
+              final bloc=BlocProvider.of<ChatBloc>(context);
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: bloc.controller,
+                        textInputAction: TextInputAction.send,
+                        decoration: InputDecoration(
+                          hintText: 'Type your message...',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.send),
-                        onPressed: () {
-                          BlocProvider.of<ChatBloc>(context).add(
-                              SendMessageEvent(message: MessageModel(content: bloc.controller.text,
-                                senderId: FirebaseAuth.instance.currentUser!.uid,
-                                timestamp: Timestamp.now(),
-                              ))
-                          );
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: () {
+                        bloc.add(
+                            SendMessageEvent(message: MessageModel(
+                              content: bloc.controller.text,
+                              senderId: widget.user!.uid,
+                              timestamp: Timestamp.now(),
+                            ))
+                        );
 
 
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              }
-            )
-        ]))
-      );
-  }
-}
+                      },
+                    ),
+                  ],
+                ),
+              );
+            }
+        )
+
+      ],
+    ),
+
+  ),
+
+  );}}
 
 
 
