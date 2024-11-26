@@ -11,57 +11,50 @@ part 'chat_state.dart';
 class ChatBloc extends Bloc<ChatEvents, ChatState> {
   final UserModel receiver;
   final String currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
-  List<MessageModel> messages = [];
   ChatBloc({required this.receiver}) : super(ChatInitial()) {
     on<SendMessageEvent>(_sendData);
     on<LoadMessagesEvent>(_getData);
-    on<Update>(_success);
   }
   TextEditingController controller = TextEditingController();
   StreamSubscription? _messagesSubscription;
-  void _success(Update event, Emitter<ChatState> emit) {
-    emit(ChatSuccess(messages));
-  }
-  Future<void> _getData(LoadMessagesEvent event, Emitter<ChatState> emit) async {
-    print("_getData method called"); // تأكيد استدعاء الميثود
 
+  final _messagesStreamController = StreamController<List<MessageModel>>();
+
+  Future<void> _getData(
+      LoadMessagesEvent event, Emitter<ChatState> emit) async {
     try {
+      emit(ChatLoading());
       await _messagesSubscription?.cancel();
-      messages.clear();
-
+      final List<MessageModel> messages = [];
       var chatRef = FirebaseFirestore.instance
           .collection('chats')
           .doc(currentUserId)
           .collection(receiver.uid);
-      var collectionSnapshot = await chatRef.get();
-      print("Collection exists: ${collectionSnapshot.docs.isNotEmpty}");
-
-      emit(ChatLoading());
+      final stream = chatRef
+          .orderBy('timestamp', descending: true)
+          .snapshots();
       _messagesSubscription =
-          chatRef.orderBy('timestamp', descending: true).snapshots().listen((ev){
-            messages.addAll(
-           ev.docs.map((doc) => MessageModel.fromMap(doc.data())).toList(),
-
-         );
-             add(Update());
-         print("Processed Messages: ${messages.length}");
-
-       });
-
-
-  }
-
-  catch (e) {
-    print("Exception caught: $e");
-    emit(ChatFailure(e.toString()));
-
-
+          stream.listen((ev) {
+        messages.clear();
+        messages.addAll(
+          ev.docs.map((doc) => MessageModel.fromMap(doc.data())).toList(),
+        );
+        _messagesStreamController.sink.add(messages);
+      });
+      emit(ChatSuccess());
+    } catch (e) {
+      print("Exception caught: $e");
+      emit(ChatFailure(e.toString()));
     }
   }
 
-  Future<void> _sendData(SendMessageEvent event, Emitter<ChatState> emit) async {
-    try {
+  Stream<List<MessageModel>> get messagesStream {
+    return _messagesStreamController.stream;
+  }
 
+  Future<void> _sendData(
+      SendMessageEvent event, Emitter<ChatState> emit) async {
+    try {
       if (controller.text.trim().isEmpty) return;
 
       final msg = MessageModel(
@@ -83,16 +76,17 @@ class ChatBloc extends Bloc<ChatEvents, ChatState> {
           .add(msg.toMap());
 
       controller.clear();
-      emit(ChatSuccess(messages));
+      emit(ChatSuccess());
     } catch (e) {
       emit(ChatFailure(e.toString()));
     }
   }
 
-
   @override
   Future<void> close() async {
     controller.dispose();
+    _messagesStreamController.close();
+    _messagesSubscription?.cancel();
     return super.close();
   }
 }

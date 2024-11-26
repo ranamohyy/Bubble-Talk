@@ -16,7 +16,4 @@ class LoadMessagesEvent extends ChatEvents {
 
 
   LoadMessagesEvent();
-}class Update extends ChatEvents {
-
-  Update();
 }
