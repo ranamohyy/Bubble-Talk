@@ -60,6 +60,7 @@ class ChatBloc extends Bloc<ChatEvents, ChatState> {
         senderId: currentUserId,
         timestamp: Timestamp.now(),
       );
+      controller.clear();
 
       await FirebaseFirestore.instance
           .collection('chats')
@@ -73,7 +74,7 @@ class ChatBloc extends Bloc<ChatEvents, ChatState> {
           .collection(currentUserId)
           .add(msg.toMap());
 
-      controller.clear();
+
       emit(ChatSuccess());
     } catch (e) {
       emit(ChatFailure(e.toString()));

@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
            MyProfile.id:(context)=>const MyProfile(),
 
        },
-         initialRoute:LogInView.id,
+         initialRoute:HomePageView.id,
          // fireAuth.currentUser!=null&&
          // fireAuth.currentUser!.emailVerified?HomePageView.id:LogInView.id ,
         debugShowCheckedModeBanner:false ,

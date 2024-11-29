@@ -40,40 +40,35 @@ class _ChatPageViewState extends State<ChatPageView> {
     return BlocProvider(
       create: (_) => chatBloc,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            Utils.formatName(username),
-            style:
-                kTextStyle16black.copyWith(fontSize: 22, color: kPrimaryColor),
+          appBar: AppBar(
+            title: Text(
+              Utils.formatName(username),
+              style: kTextStyle16black.copyWith(
+                  fontSize: 22, color: kPrimaryColor),
+            ),
           ),
-        ),
-        body: Column(
-          children: [
-            StreamBuilder(
-              stream: chatBloc.messagesStream,
-
-              builder: (_, snapshot) =>  BlocConsumer<ChatBloc, ChatState>(
-                listener: (context, state) {
-                  
-                  if (state is ChatFailure) {
-                    print("Error: ${state.error}");
-                  } else if (state is ChatSuccess) {
-                    print("Loaded messages");
+          body: StreamBuilder(
+            stream: chatBloc.messagesStream,
+            builder: (_, snapshot) => BlocConsumer<ChatBloc, ChatState>(
+              listener: (context, state) {
+                if (state is ChatFailure) {
+                  print("Error: ${state.error}");
+                } else if (state is ChatSuccess) {
+                  print("Loaded messages");
+                }
+              },
+              builder: (context, state) {
+                final messages = snapshot.data ?? [];
+                if (state is ChatLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is ChatSuccess) {
+                  if (messages.isEmpty) {
+                    return const SizedBox();
                   }
-                },
-                builder: (context, state) {
-                  final messages = snapshot.data ?? [];
-                  if (state is ChatLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is ChatSuccess) {
-                    if (messages.isEmpty) {
-                      return const Center(
-                        child: Text("no messages yet"),
-                      );
-                    }
-                    return Expanded(
+                  return Column(children: [
+                    Expanded(
                       child: ListView.builder(
                         controller: listControl,
                         keyboardDismissBehavior:
@@ -91,56 +86,55 @@ class _ChatPageViewState extends State<ChatPageView> {
                             tail: false,
                             color: isMe ? kPrimaryColor : Colors.grey.shade200,
                             textStyle: TextStyle(
-                              color: isMe ? Colors.red : Colors.black,
+                              color:
+                                  isMe ? Colors.grey.shade200 : kPrimaryColor,
                             ),
                           );
                         },
                       ),
-                    );
-                  }
-
-                  return const Center(child: Text('Error loading messages'));
-                },
-              ),
-            ),
-            Builder(
-              builder: (context) {
-                final bloc = BlocProvider.of<ChatBloc>(context);
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: bloc.controller,
-                          textInputAction: TextInputAction.send,
-                          decoration: InputDecoration(
-                            hintText: 'Type your message...',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                    ),
+                    Builder(
+                      builder: (context) {
+                        final bloc = BlocProvider.of<ChatBloc>(context);
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller: bloc.controller,
+                                  textInputAction: TextInputAction.send,
+                                  decoration: InputDecoration(
+                                    hintText: 'Type your message...',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.send),
+                                onPressed: () {
+                                  bloc.add(SendMessageEvent(
+                                      message: MessageModel(
+                                    content: bloc.controller.text,
+                                    senderId: widget.user!.uid,
+                                    timestamp: Timestamp.now(),
+                                  )));
+                                },
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.send),
-                        onPressed: () {
-                          bloc.add(SendMessageEvent(
-                              message: MessageModel(
-                            content: bloc.controller.text,
-                            senderId: widget.user!.uid,
-                            timestamp: Timestamp.now(),
-                          )));
-                        },
-                      ),
-                    ],
-                  ),
-                );
+                        );
+                      },
+                    ),
+                  ]);
+                }
+
+                return const Center(child: Text('Error loading messages'));
               },
             ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
