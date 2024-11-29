@@ -10,6 +10,7 @@ import '../../../widgets/custom_splash_item.dart';
 class EmailVerifyEmail extends StatefulWidget {
    EmailVerifyEmail({super.key,this.email});
 var email;
+static const id="verify";
   @override
   State<EmailVerifyEmail> createState() => _EmailVerifyEmailState();
 }

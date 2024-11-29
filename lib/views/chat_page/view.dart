@@ -51,8 +51,10 @@ class _ChatPageViewState extends State<ChatPageView> {
           children: [
             StreamBuilder(
               stream: chatBloc.messagesStream,
-              builder: (_, snapshot) => BlocConsumer<ChatBloc, ChatState>(
+
+              builder: (_, snapshot) =>  BlocConsumer<ChatBloc, ChatState>(
                 listener: (context, state) {
+                  
                   if (state is ChatFailure) {
                     print("Error: ${state.error}");
                   } else if (state is ChatSuccess) {

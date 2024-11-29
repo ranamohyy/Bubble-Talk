@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'auth/login/log_in_view/view.dart';
 import 'auth/register/register_view/view.dart';
+import 'auth/verify email/verify_view/view.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,10 +57,11 @@ class _MyAppState extends State<MyApp> {
            MyChatsView.id:(context)=> MyChatsView() ,
            ChatPageView.id:(context)=> ChatPageView(),
            SplashView.id:(context)=>const SplashView(),
+           EmailVerifyEmail.id:(context)=> EmailVerifyEmail(),
            ContactsView.id:(context)=>const ContactsView(),
 
        },
-         initialRoute:HomePageView.id,
+         initialRoute:LogInView.id,
          // fireAuth.currentUser!=null&&
          // fireAuth.currentUser!.emailVerified?HomePageView.id:LogInView.id ,
         debugShowCheckedModeBanner:false ,

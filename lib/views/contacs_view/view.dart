@@ -39,7 +39,7 @@ class _ContactsViewState extends State<ContactsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColor,
-    body:_contacts.isEmpty?Image.network(''):
+    body:_contacts.isEmpty?const SizedBox():
     SafeArea(
       child: Column(
           children: [

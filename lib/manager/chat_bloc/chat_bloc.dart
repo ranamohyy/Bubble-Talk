@@ -17,11 +17,9 @@ class ChatBloc extends Bloc<ChatEvents, ChatState> {
   }
   TextEditingController controller = TextEditingController();
   StreamSubscription? _messagesSubscription;
-
   final _messagesStreamController = StreamController<List<MessageModel>>();
 
-  Future<void> _getData(
-      LoadMessagesEvent event, Emitter<ChatState> emit) async {
+  Future<void> _getData(LoadMessagesEvent event, Emitter<ChatState> emit) async {
     try {
       emit(ChatLoading());
       await _messagesSubscription?.cancel();
@@ -47,9 +45,9 @@ class ChatBloc extends Bloc<ChatEvents, ChatState> {
       emit(ChatFailure(e.toString()));
     }
   }
-
   Stream<List<MessageModel>> get messagesStream {
     return _messagesStreamController.stream;
+
   }
 
   Future<void> _sendData(
