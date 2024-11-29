@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import '../../utils/helpers/custom_my_input.dart';
 class MyProfile extends StatelessWidget {
   const MyProfile({super.key});
+  static const id ="MyProfile";
   @override
   Widget build(BuildContext context) {
      final user=FirebaseAuth.instance.currentUser?.email;
     return Scaffold(
+      backgroundColor: Colors.white,
       body:  Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(

@@ -4,6 +4,7 @@ import 'package:buble_talk/views/chat_page/view.dart';
 import 'package:buble_talk/views/chats_view/view.dart';
 import 'package:buble_talk/views/contacs_view/view.dart';
 import 'package:buble_talk/views/home/view.dart';
+import 'package:buble_talk/views/my_profile/view.dart';
 import 'package:buble_talk/views/splash/view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,14 +52,15 @@ class _MyAppState extends State<MyApp> {
      return
         MaterialApp(
          routes:{
-       LogInView.id:(context)=> LogInView() ,
+       LogInView.id:(context)=>const LogInView() ,
            RegisterView.id:(context)=>const RegisterView() ,
            HomePageView.id:(context)=> HomePageView(type: 'main',) ,
-           MyChatsView.id:(context)=> MyChatsView() ,
+           MyChatsView.id:(context)=> const MyChatsView() ,
            ChatPageView.id:(context)=> ChatPageView(),
            SplashView.id:(context)=>const SplashView(),
            EmailVerifyEmail.id:(context)=> EmailVerifyEmail(),
            ContactsView.id:(context)=>const ContactsView(),
+           MyProfile.id:(context)=>const MyProfile(),
 
        },
          initialRoute:LogInView.id,
