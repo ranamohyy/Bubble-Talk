@@ -31,8 +31,8 @@ A real-time messaging app built with Flutter and Firebase, designed for seamless
 </p>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/b2067531-c41f-4429-9c4a-5e5c185b527f" alt="Image 1" width="200"/>
-   <img src="https://github.com/user-attachments/assets/b8ba1e68-5c45-4cc7-b48c-edfb27c86f04" alt="Image 1" width="200"/>
-    <img src="https://github.com/user-attachments/assets/2ab53e0a-a344-447f-b75e-584fb4e415f3" alt="Image 1" width="200"/>
+   <img src="https://github.com/user-attachments/assets/6a5ea241-dbb8-4171-a3e8-3de079cdff31" alt="Image 1" width="200"/>
+    <img src="https://github.com/user-attachments/assets/7c588687-902e-4832-a7b6-6715a1d570d4" alt="Image 1" width="200"/>
 </p>
 
 
