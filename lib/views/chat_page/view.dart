@@ -40,11 +40,15 @@ class _ChatPageViewState extends State<ChatPageView> {
     return BlocProvider(
       create: (_) => chatBloc,
       child: Scaffold(
+
+        backgroundColor: Colors.white,
           appBar: AppBar(
+            leading:const BackButton(color: Colors.white,),
+            backgroundColor:kPrimaryColor ,
             title: Text(
               Utils.formatName(username),
-              style: kTextStyle16black.copyWith(
-                  fontSize: 22, color: kPrimaryColor),
+              style: kTextStyle24white.copyWith(
+                  fontSize: 22, ),
             ),
           ),
           body: StreamBuilder(
