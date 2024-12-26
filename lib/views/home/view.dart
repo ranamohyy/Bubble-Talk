@@ -6,7 +6,6 @@ import '../chats_view/view.dart';
 import '../my_profile/view.dart';
 import '../splash/view.dart';
 class HomePageView extends StatefulWidget {
-
     HomePageView({super.key, this.email,required this.type});
     final String type;
 static String id= 'HomePage';
@@ -117,7 +116,7 @@ class _HomePageViewState extends State<HomePageView> {
                   topRight: Radius.circular(90)
               )
           ),),
-       screens[index]
+          screens[index]
       ]  ),
 
     );

@@ -77,13 +77,15 @@ class _MyAppState extends State<MyApp> {
                      filled: true,
               fillColor: Colors.white,
               alignLabelWithHint: true,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(22)),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(22)),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(22),
                   borderSide: const BorderSide(width: 0,
                       color: Colors.grey
                   ))
-          ),),
+          ),
+        ),
 
 
         // home:  const LogInView(),
