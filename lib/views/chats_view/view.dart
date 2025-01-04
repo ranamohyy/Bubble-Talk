@@ -47,7 +47,7 @@ class _MyChatsViewState extends State<MyChatsView> {
                                 )));
                       },
                       child: CustomShapeChats(
-                        text: state.list[index].email,
+                        userEmail: state.list[index].email,
                         child: Text(
                           state.list[index].email[0].toUpperCase(),
                           style: kTextStyle24white,
