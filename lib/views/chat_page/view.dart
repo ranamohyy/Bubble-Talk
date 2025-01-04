@@ -68,9 +68,6 @@ class _ChatPageViewState extends State<ChatPageView> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (state is ChatSuccess) {
-                  if (messages.isEmpty) {
-                    return const SizedBox();
-                  }
                   return Column(children: [
                     Expanded(
                       child: ListView.builder(
@@ -106,6 +103,7 @@ class _ChatPageViewState extends State<ChatPageView> {
                             children: [
                               Expanded(
                                 child: TextFormField(
+                                  cursorColor: kPrimaryColor,
                                   controller: bloc.controller,
                                   textInputAction: TextInputAction.send,
                                   decoration: InputDecoration(
