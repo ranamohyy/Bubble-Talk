@@ -10,7 +10,7 @@ class Utils {
           child: CircularProgressIndicator(),
         );
       },
-    );
+    ); 
   }
 
   static void hide(BuildContext context) {
@@ -40,12 +40,10 @@ static String capitalize(String word) {
   return word.isEmpty ? '' : word[0].toUpperCase() + word.substring(1).toLowerCase();
 }
  static String formatName(String username) {
-    // تقسيم بناءً على الحروف الكبيرة أو عند التعرف على مقطع جديد
     String firstName = '';
     String lastName = '';
 
     for (int i = 1; i < username.length; i++) {
-      // إذا وجدنا بداية مقطع جديد (عند وجود حرف كبير أو بداية اسم آخر)
       if (username[i].toUpperCase() == username[i]) {
         firstName = username.substring(0, i);
         lastName = username.substring(i);
@@ -53,7 +51,6 @@ static String capitalize(String word) {
       }
     }
 
-    // إذا لم نجد حروف كبيرة، نحاول تقسيم يدويًا في منتصف الاسم
     if (lastName.isEmpty) {
       int mid = (username.length / 2).round();
       firstName = username.substring(0, mid);
